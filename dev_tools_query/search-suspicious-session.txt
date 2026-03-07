@@ -1,0 +1,31 @@
+GET wazuh-archives-*/_search
+{
+  "size": 0,
+  "query": {
+    "wildcard": { "data.eventid": "cowrie.*" }
+  },
+  "aggs": {
+    "sessions": {
+      "terms": {
+        "field": "data.session",
+        "size": 50,
+        "order": { "max_ts": "desc" }
+      },
+      "aggs": {
+        "src_ip": { "top_hits": { "_source": ["data.src_ip","data.srcip"], "size": 1 } },
+        "first_seen": { "min": { "field": "timestamp" } },
+        "max_ts": { "max": { "field": "timestamp" } },
+        "by_type": {
+          "filters": {
+            "filters": {
+              "login_failed":  { "term": { "data.eventid": "cowrie.login.failed" } },
+              "login_success": { "term": { "data.eventid": "cowrie.login.success" } },
+              "command_input": { "term": { "data.eventid": "cowrie.command.input" } },
+              "file_download": { "term": { "data.eventid": "cowrie.session.file_download" } }
+            }
+          }
+        }
+      }
+    }
+  }
+}

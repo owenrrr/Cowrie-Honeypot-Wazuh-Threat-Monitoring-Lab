@@ -1,0 +1,6 @@
+GET wazuh-archives-*/_search
+{
+  "size": 1,
+  "query": { "match_all": {} },
+  "sort": [{ "timestamp": { "order": "desc" } }]
+}
